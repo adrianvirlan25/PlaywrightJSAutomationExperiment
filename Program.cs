@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Microsoft.Playwright;
+using System.Threading.Tasks;
 
-namespace PlaywrightDemo
+class Program
 {
-    class Program
+    public static async Task Main()
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
+        using var playwright = await Playwright.CreateAsync();
+        await using var browser = await playwright.Chromium.LaunchAsync();
+        var page = await browser.NewPageAsync();
+        await page.GotoAsync("https://playwright.dev/dotnet");
+        await page.ScreenshotAsync(new PageScreenshotOptions { Path = "screenshot.png" });
     }
 }
