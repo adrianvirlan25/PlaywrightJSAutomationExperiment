@@ -6,7 +6,14 @@ class Program
     public static async Task Main()
     {
         using var playwright = await Playwright.CreateAsync();
-        await using var browser = await playwright.Chromium.LaunchAsync();
+
+        //await using var browser = await playwright.Chromium.LaunchAsync();
+        await using var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+        {
+            Headless = false,
+            SlowMo = 50,
+        });
+
         var page = await browser.NewPageAsync();
         await page.GotoAsync("https://playwright.dev/dotnet");
         await page.ScreenshotAsync(new PageScreenshotOptions { Path = "screenshot.png" });
